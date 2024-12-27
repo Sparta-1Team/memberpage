@@ -42,6 +42,7 @@
         }
 
         h1 {
+
             margin: 0px;
             padding: 0px;
             font-size: 36px;
@@ -83,6 +84,12 @@
             text-align: left;
         }
 
+        #snscontainer {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+        }
+
         .sns-img {
             width: 30px;
             height: 30px;
@@ -92,7 +99,6 @@
             overflow: hidden;
             margin-bottom: 4px;
         }
-
 
         .guestbook-posting {
             display: flex;
@@ -143,7 +149,6 @@
             margin-left: 20px;
             margin-top: 5px;
             flex-grow: 1;
-
         }
 
         .guestbook-listcontent {
@@ -199,54 +204,56 @@
 
         // For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
-            apiKey: "AIzaSyDSuGHigUgp3gjt9oLer2J2GrGwQGQmKLw",
-            authDomain: "sparta-ce2e4.firebaseapp.com",
-            projectId: "sparta-ce2e4",
-            storageBucket: "sparta-ce2e4.firebasestorage.app",
-            messagingSenderId: "531082306855",
-            appId: "1:531082306855:web:550042be36194d99e3f502",
-            measurementId: "G-R8CQ3V7Y6M"
+            apiKey: "AIzaSyCDrR7VoWYioSlzxW3S5qZAAsQbxrbBhlg",
+            authDomain: "project-introduce.firebaseapp.com",
+            projectId: "project-introduce",
+            storageBucket: "project-introduce.firebasestorage.app",
+            messagingSenderId: "830703425483",
+            appId: "1:830703425483:web:c05b7c3072112a857e084e",
+            measurementId: "G-1SCXC4PL64"
         };
 
-
+        let user = $('#name').text();
         // Firebase 인스턴스 초기화
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
+        try {
+            const docRead = doc(db, 'modifyintro', '송윤정');
+            const docSnap = await getDoc(docRead);
 
-        const docRead = doc(db, 'modifyintro', '송윤정');
-        const docSnap = await getDoc(docRead);
+            let mlow = docSnap.data();
 
-        let row = docSnap.data();
+            console.log(mlow);
 
-        console.log(row);
+            let MPic = mlow['MPic'];
+            let MName = mlow['MName'];
+            let MMbti = mlow['MMbti'];
+            let Mhobby = mlow['Mhobby'];
+            let MIntro = mlow['MIntro'];
+            let MInsta = mlow['MInsta'];
 
-        let MPic = row['MPic'];
-        let MName = row['MName'];
-        let MMbti = row['MMbti'];
-        let Mhobby = row['Mhobby'];
-        let MIntro = row['MIntro'];
-        let MInsta = row['MInsta'];
+            console.log(MInsta);
 
 
-        let modify = `<img class="profile" src="${MPic}">
-            <div id="mname">
-                <h1 id="mname2">${MName}</h1>
-            </div>
-            <p class="title">백엔드 개발 지망생</p>
-            <br><br><br><br>
-        </div>`
+            let modify = `<img class="profile" src="${MPic}">`
 
-        let mlink=`<a href="${MInsta}"><img class="sns-img"
-                    src="https://github.com/Sparta-1Team/myintroduce/blob/main/github.png?raw=true"></a>`
+            let mlink = `<a href="${MInsta}"><img class="sns-img"
+                    src="https://github.com/Sparta-1Team/myintroduce/blob/main/velog.png?raw=true"></a>`
 
-        $('#total').empty();
-        $('#total').append(modify);
-        $('#selfintro2').empty();
-        $('#selfintro2').append(MIntro);
-        $('#link').empty();
-        $('#link').append(mlink);
-            
+
+            $('#total').empty();
+            $('#total').append(modify);
+            $('#selfintro2').empty();
+            $('#selfintro2').append(MIntro);
+            $('#link').empty();
+            $('#link').append(mlink);
+        } catch (error) {
+            console.error("데이터 불러오기 실패!", error);
+        }try{
+            console.log("수정 데이터가 없습니다.");
+        }
+
         $("#guestbook-postingbutton").click(async function () {
 
             let nickname = $('#nickname').val();
@@ -324,13 +331,12 @@
 <body>
     <div class="mainbox">
         <div id="total">
-            <img class="profile" src="C:\Users\com\Desktop\Project1\MemberIntro\myintroduce\yj.jpg">
-            <div id="mname">
-                <h1 id="mname2">송윤정</h1>
-            </div>
-            <p class="title">백엔드 개발 지망생</p>
-            <br><br><br><br>
+            <img class="profile" src="../myintroduce/yjface.png">
         </div>
+        <h1 id="name">송윤정</h1>
+        <p class="title">백엔드 개발 지망생</p>
+        <br><br><br><br>
+
 
         <section>
             <h2>자기소개</h2>
@@ -383,19 +389,27 @@
         <br>
 
         <section>
+
             <h2>내 연락처</h2>
+
+
             <div class="sns">
                 <p class="text">you can meet me !</p>
-                <div id="link"><a href="https://github.com/bopeep934"><img class="sns-img"
-                        src="https://github.com/Sparta-1Team/myintroduce/blob/main/github.png?raw=true"></a></div>
-                <div><a href="https://velog.io/@gkinfn/posts"><img class="sns-img"
-                        src="https://github.com/Sparta-1Team/myintroduce/blob/main/velog.png?raw=true"></a></div>
+                <div id="snscontainer">
+                    <a href="https://github.com/bopeep934"><img class="sns-img"
+                            src="https://github.com/Sparta-1Team/myintroduce/blob/main/github.png?raw=true"></a>
+                    <div id="link"><a href="https://velog.io/@gkinfn/posts"><img class="sns-img"
+                                src="https://github.com/Sparta-1Team/myintroduce/blob/main/velog.png?raw=true"></a>
+                    </div>
+                </div>
             </div>
+
         </section>
         <br>
 
-        <div align="right">
-            <button type="button" id="postingbtn" onclick="window.location.href='MemberIntro_syj.html'"
+
+        <div align="right" class="modify">
+            <button type="button" id="postingbtn" onclick="window.location.href='../modifypage/MemberIntro_yj.html'"
                 class="btn btn-outline-info"> 수정 </button>
         </div>
 
